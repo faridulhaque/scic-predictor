@@ -1,21 +1,21 @@
-import React, { createContext, useState } from "react";
-import { InputGroup } from "react-bootstrap";
+import React, { useState } from "react";
+
 import { Alert } from "react-st-modal";
 import Fields from "./Fields";
-
+import './Style.css';
 
 const Home = () => {
   const [checked, setChecked] = useState(false);
-const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [quantity, setQuantity] = useState(0);
-const handleError = (e) => {
-    if(e.target.value > 12 || e.target.value < 1){
-        setError('Input value must be from 1 to 12');
+  const [displayField, setDisplayField] = useState(false);
+  const handleError = (e) => {
+    if (e.target.value > 12 || e.target.value < 1) {
+      setError("Input value must be from 1 to 12");
+    } else {
+      setError("");
     }
-    else{
-        setError('');
-    }
-}
+  };
 
   const continueProcess = async (e) => {
     await e.preventDefault();
@@ -27,28 +27,35 @@ const handleError = (e) => {
       );
     } else {
       setQuantity(e.target.asQuantity.value);
+      setDisplayField(true);
     }
   };
 
   return (
     <div>
-      <div>
+      <h2 className="text-center text-info mt-5 mb-3">SCIC Predictor</h2>
+      <div className="form-wrapper">
         <form onSubmit={continueProcess}>
-          <input onChange={handleError} name="asQuantity" type="number" />
+          <input className="form-control" onChange={handleError} name="asQuantity" type="number" />
           <br />
-          <InputGroup.Checkbox onClick={() => setChecked(!checked)} aria-label="Checkbox for following text input" /> I have
-          not skipped any assignments
+          <input
+            type="checkbox"
+            onClick={() => setChecked(!checked)}
+            aria-label="Checkbox for following text input"
+          />{" "}
+          <span>I have not skipped any assignments</span>
           {/* <input  type="checkbox" />  */}
           <br />
-          <button className="btn btn-primary"disabled={error} type="submit">continue</button>
-          
+          <button className="btn btn-info mt-3" disabled={error} type="submit">
+            continue
+          </button>
         </form>
         <br />
       </div>
-      <div>
-            <Fields quantity={quantity}></Fields>
+      <div className={!displayField ? 'd-none' : 'd-block container'}>
+        <Fields quantity={quantity} setDisplayField={setDisplayField}></Fields>
       </div>
-      
+      <p className="text-center text-info mt-5">Copyright: Faridul Haque Murshed</p>
     </div>
   );
 };

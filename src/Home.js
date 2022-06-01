@@ -37,12 +37,16 @@ const Home = () => {
       <div className="form-wrapper">
         <form onSubmit={continueProcess}>
           <input className="form-control" onChange={handleError} name="asQuantity" type="number" />
+          {
+            error && <small className="text-danger my-1">{error}</small>
+          }
           <br />
           <input
             type="checkbox"
             onClick={() => setChecked(!checked)}
             aria-label="Checkbox for following text input"
           />{" "}
+          
           <span>I have not skipped any assignments</span>
           {/* <input  type="checkbox" />  */}
           <br />

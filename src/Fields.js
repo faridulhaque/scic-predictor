@@ -30,7 +30,7 @@ const Fields = ({ quantity, setDisplayField }) => {
       }
     } else {
       if (final >= 50) {
-        await Alert("You have been selected SCIC", "congratulations!");
+        await Alert("You have been selected for SCIC", "congratulations!");
       } else if (final >= 48.5 && final < 50) {
         await Alert(
           "Warning!",
@@ -65,7 +65,7 @@ const Fields = ({ quantity, setDisplayField }) => {
       await Alert("Please avoid negative numbers as input value");
     } else if (mark < option / 2) {
       await Alert(
-        `As you have got less than 50% marks in one of your assignments you have lost your chance to join SCIC`,
+        `As you have got less than 50% marks in one of your assignments, you have lost your chance to join SCIC`,
         "You are not allowed to SCIC!"
       );
     } else {

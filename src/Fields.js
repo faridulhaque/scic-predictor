@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Alert, Confirm } from "react-st-modal";
 
 const Fields = ({ quantity, setDisplayField }) => {
@@ -7,11 +7,15 @@ const Fields = ({ quantity, setDisplayField }) => {
   const [mark, setMark] = useState(0);
   const [option, setOption] = useState(0);
   const [total, setTotal] = useState(0);
+  const [increasing, setIncreasing] = useState(0);
   
   let final = total / forms;
 
   const handlePredict = async () => {
-    if (forms < 12) {
+    if(forms !== increasing){
+      await Alert('you have to click all submit buttons to get the result', 'Error!')
+    }
+    else if (forms < 12) {
       if (final >= 50) {
         await Alert(
           "You are on the right track, keep working hard to fulfil your dream",
@@ -46,6 +50,8 @@ const Fields = ({ quantity, setDisplayField }) => {
   };
 
   const handleCalculation = async (i) => {
+   
+    
     if (isNaN(mark)) {
       await Alert(
         "Please don't leave the input value empty",
@@ -70,7 +76,7 @@ const Fields = ({ quantity, setDisplayField }) => {
       );
     } else {
       setTotal(total + mark);
-      // document.getElementById("display-" + i).style.display = "none";
+      setIncreasing(increasing + 1 );
       document.getElementById("select-" + i).style.display = "none";
       document.getElementById("input-" + i).disabled = true;
       document.getElementById("button-" + i).disabled = true;

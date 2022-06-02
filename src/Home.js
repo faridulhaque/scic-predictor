@@ -34,6 +34,7 @@ const Home = () => {
   return (
     <div>
       <h2 className="text-center text-info mt-5 mb-3">SCIC Predictor</h2>
+      <p className="text-center my-3 fs-6">How many assignments have you submitted?</p>
       <div className="form-wrapper">
         <form onSubmit={continueProcess}>
           <input className="form-control" onChange={handleError} name="asQuantity" type="number" />
@@ -50,7 +51,7 @@ const Home = () => {
           <span>I have not skipped any assignments</span>
           {/* <input  type="checkbox" />  */}
           <br />
-          <button className="btn btn-info mt-3" disabled={error} type="submit">
+          <button className="btn btn-info mt-3 text-white" disabled={error} type="submit">
             continue
           </button>
         </form>

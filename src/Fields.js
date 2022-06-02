@@ -157,7 +157,7 @@ const Fields = ({ quantity, setDisplayField }) => {
                       className="btn btn-info text-white"
                       onClick={() => handleCalculation(i)}
                     >
-                      done
+                      Submit
                     </button>
                   </td>
                 </tr>

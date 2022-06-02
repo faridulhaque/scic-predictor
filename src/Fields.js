@@ -80,6 +80,8 @@ const Fields = ({ quantity, setDisplayField }) => {
       document.getElementById("select-" + i).style.display = "none";
       document.getElementById("input-" + i).disabled = true;
       document.getElementById("button-" + i).disabled = true;
+      setMark(0)
+      setOption(0)
       
       
     }

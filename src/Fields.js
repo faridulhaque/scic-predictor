@@ -23,13 +23,13 @@ const Fields = ({ quantity, setDisplayField }) => {
         );
       } else if (final >= 48.5 && final < 50) {
         await Alert(
-          "You are in the danger zone",
-          "try your best to improve your performance"
+          
+          "Your average mark is below 50 but there are still some hope to come back!. Work hard with next assignments", 'warning!'
         );
       } else if (final < 48.5) {
         await Alert(
-          "Unfortunately you are not eligible for SCIC as your average mark is low",
-          "Sorry!"
+          "your performance in not impressive. Try your best to improve the situation with your next assignments",
+          "Danger!"
         );
       }
     } else {
@@ -37,8 +37,7 @@ const Fields = ({ quantity, setDisplayField }) => {
         await Alert("You have been selected for SCIC", "congratulations!");
       } else if (final >= 48.5 && final < 50) {
         await Alert(
-          "Warning!",
-          "Your total score is below average though you are close to SCIC, please contact the moderators to review your position"
+          "Your total score is below average though you may have a last chance, please contact the moderators to review your position", "Warning!"
         );
       } else if (final < 48.5) {
         await Alert(

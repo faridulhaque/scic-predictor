@@ -6,4 +6,16 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    margin-top: 5px !important;
+}
+.form{
+    display: flex; 
+    flex-direction: row;
+    
+}
+.input-serial{
+    background-color: white;
+    width: 50px;
+    border: none;
+
 }

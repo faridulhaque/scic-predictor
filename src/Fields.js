@@ -1,50 +1,47 @@
 import React, { useState } from "react";
 import { Alert, Confirm } from "react-st-modal";
 
-const Fields = ({ quantity, setDisplayField }) => {
+const Fields = ({ quantity}) => {
   const forms = parseInt(quantity);
 
-  const [mark, setMark] = useState(0);
-  const [option, setOption] = useState(0);
   const [total, setTotal] = useState(0);
   const [increasing, setIncreasing] = useState(0);
 
-  let final = total;
-  console.log(mark)
-  console.log(option)
+  
 
   const handlePredict = async () => {
+    
     if (forms !== increasing) {
       await Alert(
         "you have to click all submit buttons to get the result",
         "Error!"
       );
     } else if (forms < 12) {
-      if (final / forms >= 50) {
+      if (total / forms >= 50) {
         await Alert(
           "You are on the right track, keep working hard to fulfil your dream",
           "congratulations!"
         );
-      } else if (final / forms >= 48.5 && final < 50) {
+      } else if (total / forms >= 48.5 && total < 50) {
         await Alert(
           "Your average mark is below 50 but there are still some hope to come back!. Work hard with next assignments",
           "warning!"
         );
-      } else if (final / forms < 48.5) {
+      } else if (total / forms < 48.5) {
         await Alert(
           "your performance in not impressive. Try your best to improve the situation with your next assignments",
           "Danger!"
         );
       }
     } else if (forms === 12) {
-      if (final / forms >= 50) {
+      if (total / forms >= 50) {
         await Alert("You have been selected for SCIC", "congratulations!");
-      } else if (final / forms >= 48.5 && final < 50) {
+      } else if (total / forms >= 48.5 && total < 50) {
         await Alert(
           "Your total score is below average though you may have a last chance, please contact the moderators to review your position",
           "Warning!"
         );
-      } else if (final / forms < 48.5) {
+      } else if (total / forms < 48.5) {
         await Alert(
           "Unfortunately you are not eligible for SCIC as your average mark is low",
           "Sorry!"
@@ -53,39 +50,6 @@ const Fields = ({ quantity, setDisplayField }) => {
     }
   };
 
-  const handleCalculation = async (i) => {
-    if(isNaN(mark)){
-      return Alert("Don't leave the input field empty")
-    }
-    if (option ===0) {
-      await Alert(
-        "You might have left a field unchosen from the right row",
-        "Unchosen field!"
-      );
-    } else if (mark > option) {
-      await Alert(
-        "Input value should not be greater than option value",
-        "Go Carefully!"
-      );
-    } else if (mark < 0) {
-      await Alert("Please avoid negative numbers as input value");
-    } else if (mark < option / 2) {
-      await Alert(
-        `As you have got less than 50% marks in one of your assignments, you have lost your chance to join SCIC`,
-        "You are not allowed to SCIC!"
-      );
-    } else {
-      setTotal(total + mark);
-      setIncreasing(increasing + 1);
-      document.getElementById("select-" + i).style.display = "none";
-      document.getElementById("input-" + i).disabled = true;
-      document.getElementById("button-" + i).disabled = true;
-      setMark(0)
-      setOption(0)
-      
-      
-    }
-  };
   const handleRefresh = async () => {
     const isConfirm = await Confirm(
       "The page will reload and all action will restart",
@@ -96,6 +60,43 @@ const Fields = ({ quantity, setDisplayField }) => {
       window.location.reload(false);
     }
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const i = parseInt(e.target.asn.value) - 1;
+    const mark = parseInt(e.target.mark.value);
+    const option = parseInt(e.target.option.value);
+    
+
+    if (mark === "" || isNaN(mark)) {
+      await Alert("Don't leave the input field empty", "Error!");
+    } else if (mark < 0) {
+      await Alert("Please avoid negative numbers as input value", "Error!");
+    } else if (option === 0) {
+      await Alert(
+        "You might have left a field unchosen from the right row",
+        "Unchosen field!"
+      );
+    } else if (mark > option) {
+      await Alert(
+        "Input value should not be greater than the option value",
+        "Go Carefully!"
+      );
+    } else if (mark < option / 2) {
+      await Alert(
+        "As you got less than 50% marks in one of your assignments, you are no more eligible for SCIC.",
+        "not eligible"
+      );
+    } else {
+      setTotal(total + mark);
+      setIncreasing(increasing + 1);
+      
+      document.getElementById("input-" + i).disabled = true;
+      document.getElementById("select-" + i).disabled = true;
+      document.getElementById("btn-" + i).disabled = true;
+    }
+  };
+
   return (
     <div>
       <div>
@@ -112,60 +113,30 @@ const Fields = ({ quantity, setDisplayField }) => {
           * Click the button from the right row
         </p>
         <p className="text-center text-danger">
-          * Finally click the 'Predict' button
+          * totally click the 'Predict' button
         </p>
         <div>
-          <table className="table">
-            <thead>
-              {}
-              <tr>
-                <th scope="col">No.</th>
-                <th scope="col">Marks</th>
-                <th scope="col">Deadline</th>
-                <th scope="col">Calculate</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[...Array(forms)].map((form, i) => (
-                <tr key={i} id={"display-" + i}>
-                  <th scope="row">{i + 1}</th>
-                  <td>
-                    <input
-                      id={"input-" + i}
-                      
-                      className="form-control w-50"
-                      onChange={(e) => setMark(parseInt(e.target.value))}
-                      name="mark"
-                      type="number"
-                    />
-                  </td>
-                  <td>
-                    <select
-                      id={"select-" + i}
-                      className="form-select"
-                      aria-label="Default select example"
-                      onChange={(e) => setOption(parseInt(e.target.value))}
-                      name="option"
-                    >
-                      <option value="0">Select</option>
-                      <option value="60">60</option>
-                      <option value="50">50</option>
-                      <option value="30">30</option>
-                    </select>
-                  </td>
-                  <td>
-                    <button
-                      id={"button-" + i}
-                      className="btn btn-info text-white"
-                      onClick={() => handleCalculation(i)}
-                    >
-                      Submit
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <h3 className='text-center'>Total: {total}</h3>
+          <h4 className='text-center'>Average: {(total/increasing).toFixed(2)}</h4>
+          {[...Array(forms)].map((form, i) => (
+            <div className='form-wrapper' key={i}>
+              <form className='my-2 form' onSubmit={handleSubmit}>
+                <input className='input-serial' name="asn" value={i + 1} disabled />
+                <input className='form-control mx-2 w-25' id={"input-" + i} name="mark" type="number" />
+
+                <select className='form-select mx-1 w-50' id={"select-" + i} name="option">
+                  <option value="0">select</option>
+                  <option value="60">60</option>
+                  <option value="50">50</option>
+                  <option value="30">30</option>
+                </select>
+
+                <button className='btn btn-primary mx-1' id={"btn-" + i} type="submit">
+                  Submit
+                </button>
+              </form>
+            </div>
+          ))}
         </div>
 
         <div className="button-wrapper">

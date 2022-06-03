@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Alert } from "react-st-modal";
 import Fields from "./Fields";
-import './Style.css';
+import "./Style.css";
 
 const Home = () => {
   const [checked, setChecked] = useState(false);
@@ -34,33 +34,43 @@ const Home = () => {
   return (
     <div>
       <h2 className="text-center text-info mt-5 mb-3">SCIC Predictor</h2>
-      <p className="text-center my-3 fs-6">How many assignments have you submitted?</p>
+      <p className="text-center my-3 fs-6">
+        How many assignments have you submitted?
+      </p>
       <div className="form-wrapper">
         <form onSubmit={continueProcess}>
-          <input className="form-control" onChange={handleError} name="asQuantity" type="number" />
-          {
-            error && <small className="text-danger my-1">{error}</small>
-          }
+          <input
+            className="form-control"
+            onChange={handleError}
+            name="asQuantity"
+            type="number"
+          />
+          {error && <small className="text-danger my-1">{error}</small>}
           <br />
           <input
             type="checkbox"
             onClick={() => setChecked(!checked)}
             aria-label="Checkbox for following text input"
           />{" "}
-          
           <span>I have not skipped any assignments</span>
-          {/* <input  type="checkbox" />  */}
+          
           <br />
-          <button className="btn btn-info mt-3 text-white" disabled={error} type="submit">
-            continue
+          <button
+            className="btn btn-info mt-3 text-white"
+            disabled={error}
+            type="submit"
+          >
+            Continue
           </button>
         </form>
         <br />
       </div>
-      <div className={!displayField ? 'd-none' : 'd-block container'}>
+      <div className={!displayField ? "d-none" : "d-block container"}>
         <Fields quantity={quantity} setDisplayField={setDisplayField}></Fields>
       </div>
-      <p className="text-center text-info mt-5">Copyright: Faridul Haque Murshed</p>
+      <p className="text-center text-info mt-5">
+        Copyright: Faridul Haque Murshed
+      </p>
     </div>
   );
 };

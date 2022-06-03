@@ -1,19 +1,24 @@
-.form-wrapper{
+/* there are two from wrappers, the first one is in the Home component and another one is in the Fields component. */
+.form-wrapper {
     display: flex;
     justify-content: center;
 }
-.button-wrapper{
+
+/* Others styles in Fields component */
+.button-wrapper {
     display: flex;
     flex-direction: row;
     justify-content: center;
     margin-top: 5px !important;
 }
-.form{
-    display: flex; 
+
+.form {
+    display: flex;
     flex-direction: row;
-    
+
 }
-.input-serial{
+
+.input-serial {
     background-color: white;
     width: 50px;
     border: none;

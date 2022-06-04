@@ -6,10 +6,12 @@ const Fields = ({ quantity }) => {
 
   const [total, setTotal] = useState(0);
   const [increasing, setIncreasing] = useState(0);
+  const [lastFivePercentageTotal, setLastFivePercentageTotal] = useState(0);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const i = parseInt(e.target.asn.value) - 1;
+    const id = parseInt(e.target.asn.value) - 1;
+    const sequence = id + 1;
     const mark = parseInt(e.target.mark.value);
     const option = parseInt(e.target.option.value);
 
@@ -35,10 +37,22 @@ const Fields = ({ quantity }) => {
     } else {
       setTotal(total + mark);
       setIncreasing(increasing + 1);
+      if (
+        sequence === 12 ||
+        sequence === 11 ||
+        sequence === 10 ||
+        sequence === 9 ||
+        sequence === 8
+      ) {
+        let lastFivePercentage = (mark / option) * 100;
 
-      document.getElementById("input-" + i).disabled = true;
-      document.getElementById("select-" + i).disabled = true;
-      document.getElementById("btn-" + i).disabled = true;
+        setLastFivePercentageTotal(
+          lastFivePercentageTotal + lastFivePercentage
+        );
+      }
+      document.getElementById("input-" + id).disabled = true;
+      document.getElementById("select-" + id).disabled = true;
+      document.getElementById("btn-" + id).disabled = true;
     }
   };
 
@@ -54,30 +68,32 @@ const Fields = ({ quantity }) => {
           "You are on the right track, keep working hard to fulfil your dream",
           "Congratulations!"
         );
-      } else if (total / forms >= 48.5 && total < 50) {
-        await Alert(
-          "Your average mark is below 50 but there are still some hope to come back!. Work hard with next assignments",
-          "Warning!"
-        );
-      } else if (total / forms < 48.5) {
+      } else if (total / forms < 50) {
         await Alert(
           "Your performance in not impressive. Try your best to improve the situation with your next assignments",
-          "Danger!"
+          "Warning!"
         );
       }
     } else if (forms === 12) {
-      if (total / forms >= 50) {
-        await Alert("You have been selected for SCIC", "Congratulations!");
-      } else if (total / forms >= 48.5 && total < 50) {
+      if (total / forms >= 48) {
+        await Alert(`You have been selected for SCIC with ${(total/forms).toFixed(2)} average mark`, "Congratulations!");
+      } else if (total / forms <= 45) {
         await Alert(
-          "Your total score is below average though you may have a last chance, please contact the moderators to review your position",
-          "Warning!"
-        );
-      } else if (total / forms < 48.5) {
-        await Alert(
-          "Unfortunately you are not eligible for SCIC as your average mark is low",
+          `Unfortunately you are not eligible for SCIC as your average mark ${total/forms} is less than 50`,
           "Sorry!"
         );
+      } else {
+        if (lastFivePercentageTotal / 5 >= 80) {
+          Alert(
+            `You have have been selected for SCIC under special selection criteria with ${(total/forms).toFixed(2)} average marks on your all assignments and ${(lastFivePercentageTotal/5).toFixed(2)} average percentage of the last five assignments' marks`,
+            "congratulations"
+          );
+        } else {
+          await Alert(
+            `Unfortunately you are not eligible for SCIC as your average mark ${total/forms} is less than 50`,
+            "Sorry!"
+          );
+        }
       }
     }
   };
@@ -117,6 +133,7 @@ const Fields = ({ quantity }) => {
             Average:{" "}
             {isNaN(total / increasing) ? 0 : (total / increasing).toFixed(2)}
           </h4>
+          <h5 className="text-center">Average percentage of last five assignments' marks: {(lastFivePercentageTotal/5).toFixed(2)}</h5>
           {[...Array(forms)].map((form, i) => (
             <div className="form-wrapper" key={i}>
               <form className="my-2 form" onSubmit={handleSubmit}>
